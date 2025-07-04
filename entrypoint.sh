@@ -5,5 +5,5 @@ ENDPOINT=${ENDPOINT:-"https://jsonplaceholder.typicode.com"}
 
 echo "✅ Running tests against endpoint: $ENDPOINT"
 
-# Run pytest with HTML report
-pytest --endpoint="$ENDPOINT" --html=report.html --self-contained-html
+# Run pytest
+pytest --endpoint="$ENDPOINT"
