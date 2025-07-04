@@ -47,7 +47,7 @@ def clean_up_resources():
 def skip_clean_up(pytestconfig):
     return pytestconfig.getoption("skip_cleanup")
 
-@pytest.fixture(autouse=True, scope="function")
+@pytest.fixture(autouse=True, scope="session")
 def per_test_setup_teardown(skip_clean_up):
     logger.info("[TEST SETUP] Starting a new test...")
     yield
