@@ -1,0 +1,36 @@
+name: Cloud API Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      api_endpoint:
+        description: "Base URL of the API to test"
+        required: true
+        default: "https://jsonplaceholder.typicode.com"
+
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run API Tests against Cloud API
+        run: |
+          echo "🔍 Testing against: ${{ github.event.inputs.api_endpoint || 'https://jsonplaceholder.typicode.com' }}"
+          pytest --endpoint="${{ github.event.inputs.api_endpoint }}" --html=report.html --self-contained-html

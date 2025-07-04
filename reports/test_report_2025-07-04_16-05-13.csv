@@ -1,0 +1,5 @@
+timestamp,test,outcome,duration_sec,message
+2025-07-04 16:05:13,tests/test_1.py::test_get_all_posts,passed,0.2986,
+2025-07-04 16:05:13,tests/test_2.py::test_get_all_posts,passed,0.259,
+2025-07-04 16:05:14,tests/test_3.py::test_get_all_posts,passed,0.2569,
+2025-07-04 16:05:14,tests/test_post.py::test_get_all_posts,passed,0.2564,

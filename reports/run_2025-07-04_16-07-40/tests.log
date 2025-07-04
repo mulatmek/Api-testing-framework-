@@ -1,0 +1,14 @@
+2025-07-04 16:07:40,743 - INFO - [SETUP] Creating APIClient with base URL: https://jsonplaceholder.typicode.com
+2025-07-04 16:07:40,743 - INFO - [TEST SETUP] Starting a new test...
+2025-07-04 16:07:40,757 - INFO - Testing GET /posts
+2025-07-04 16:07:41,091 - INFO - [TEST TEARDOWN] Finished the test.
+2025-07-04 16:07:41,091 - INFO - [TEST SETUP] Starting a new test...
+2025-07-04 16:07:41,091 - INFO - Testing GET /posts
+2025-07-04 16:07:41,407 - INFO - [TEST TEARDOWN] Finished the test.
+2025-07-04 16:07:41,423 - INFO - [TEST SETUP] Starting a new test...
+2025-07-04 16:07:41,423 - INFO - Testing GET /posts
+2025-07-04 16:07:41,694 - INFO - [TEST TEARDOWN] Finished the test.
+2025-07-04 16:07:41,697 - INFO - [TEST SETUP] Starting a new test...
+2025-07-04 16:07:41,714 - INFO - Testing GET /posts
+2025-07-04 16:07:41,995 - INFO - [TEST TEARDOWN] Finished the test.
+2025-07-04 16:07:41,995 - INFO - [TEARDOWN] APIClient session completed.
