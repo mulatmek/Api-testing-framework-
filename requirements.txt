@@ -2,3 +2,6 @@ pytest
 requests
 pytest-html
 pytest-xdist
+pre-commit
+black
+isort

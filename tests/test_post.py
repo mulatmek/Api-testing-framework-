@@ -10,7 +10,7 @@ def test_get_all_posts(client):
     posts = response.json()
     assert isinstance(posts, list), "Response should be a list"
     assert len(posts) == 100, "There should be 100 posts"
-    
+
     for post in posts:
         assert isinstance(post, dict), "Each post should be a dictionary"
 

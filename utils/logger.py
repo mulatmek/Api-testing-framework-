@@ -4,6 +4,7 @@ import os
 logger = logging.getLogger("api_test")
 logger.setLevel(logging.INFO)
 
+
 def setup_logger(log_file_path):
     if logger.handlers:
         return  # Prevent adding handlers multiple times
