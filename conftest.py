@@ -10,24 +10,24 @@ def base_url():
     return os.getenv("API_BASE_URL", "http://localhost:8000")
 
 
-# @pytest.fixture(scope="session", autouse=True)
-# def docker_container():
-#     """Start the application container before tests and shut it down after."""
-#     try:
-#         subprocess.run(["docker-compose", "up", "--build", "-d"], check=True)
-#     except subprocess.CalledProcessError as e:
-#         pytest.fail(f"Failed to start Docker container: {e}")
-#
-#     yield
-#
-#     subprocess.run(["docker-compose", "down"], check=True)
+@pytest.fixture(scope="session", autouse=True)
+def docker_container():
+    """Start the application container before tests and shut it down after."""
+    try:
+        subprocess.run(["docker-compose", "up", "--build", "-d"], check=True)
+    except subprocess.CalledProcessError as e:
+        pytest.fail(f"Failed to start Docker container: {e}")
+
+    yield
+
+    subprocess.run(["docker-compose", "down"], check=True)
 
 @pytest.fixture(scope="session", autouse=True)
 def wait_for_server(base_url):
     """Wait for the API server to respond to a health check."""
 
     health_check_url = f"{base_url}/health"
-    timeout = 15
+    timeout = os.getenv("TIMEOUT", 15)
 
     for _ in range(timeout):
         try:
