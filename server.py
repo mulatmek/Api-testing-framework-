@@ -13,10 +13,11 @@ app = FastAPI(lifespan=lifespan)
 @app.get("/reverse")
 async def reverse_string(in_: str = Query(..., alias="in")):
     """Reverse the order of words in the input string."""
-    if not in_.strip():
+    if not in_ or not in_.strip():
         raise HTTPException(status_code=400, detail="Query parameter 'in' must not be empty.")
+
     try:
-        words = in_.split()
+        words = in_.strip().split()
         reversed_str = " ".join(reversed(words))
         app.state.last_result = reversed_str
         return {"result": reversed_str}
