@@ -1,6 +1,6 @@
-# Docker API Test Framework
+# API Test Framework
 
-## 📖 Overview
+## overview
 This project provides a **FastAPI application** packaged in Docker, along with a **Pytest-based testing framework**.  
 It is designed so developers can:
 - Run the API inside a container
@@ -9,7 +9,7 @@ It is designed so developers can:
 
 ---
 
-## 🚀 REST API Endpoints
+## REST API Endpoints
 
 - **`GET /reverse?in=your text`**  
   Reverses the order of words in the input string.  
@@ -92,7 +92,7 @@ This report can be integrated with Jenkins, GitLab, GitHub Actions, or other CI/
 
 ---
 
-## 🔧 Development Notes
+##  Development Notes
 - Default base URL for tests is `http://localhost:8000`
 - Override it for staging or remote testing:
   ```bash
@@ -108,7 +108,7 @@ This report can be integrated with Jenkins, GitLab, GitHub Actions, or other CI/
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 1. **Clone the repository**
    ```bash
@@ -132,4 +132,3 @@ This report can be integrated with Jenkins, GitLab, GitHub Actions, or other CI/
 
 ---
 
-✅ With this setup, adding new tests is as simple as writing another `test_*.py` file inside the `tests/` folder.
