@@ -1,114 +1,11 @@
 # API Test Framework
 
-## overview
-This project provides a **FastAPI application** packaged in Docker, along with a **Pytest-based testing framework**.  
-It is designed so developers can:
-- Run the API inside a container
-- Automatically test endpoints with Pytest
-- Publish results as **JUnit XML** for CI/CD integration
+A **FastAPI** app packaged in Docker with a **Pytest-based** test suite.  
+Running `pytest` will **automatically build, start, health-check, and stop** the Dockerized API, and export **JUnit XML** for CI/CD.
 
 ---
 
-## REST API Endpoints
-
-- **`GET /reverse?in=your text`**  
-  Reverses the order of words in the input string.  
-  Example:  
-  ```http
-  GET /reverse?in=The quick brown fox
-  → {"result": "fox brown quick The"}
-  ```
-
-- **`GET /restore`**  
-  Returns the last reversed result produced by `/reverse`.  
-  Example:  
-  ```http
-  GET /restore
-  → {"result": "fox brown quick The"}
-  ```
-
-- **`GET /health`**  
-  Simple health check endpoint.  
-  Example:  
-  ```http
-  GET /health
-  → {"status": "ok"}
-  ```
-
----
-
-## 🐳 Running the Application
-
-### 1. Build and Start the Container
-```bash
-docker-compose up --build -d
-```
-
-This will:
-- Build the Docker image from the `Dockerfile`
-- Start the FastAPI app container
-- Expose the API at: [http://localhost:8000](http://localhost:8000)
-
-### 2. Stop the Container
-```bash
-docker-compose down
-```
-
----
-
-## 🧪 Running the Tests
-
-### 1. Execute Tests with Pytest
-```bash
-pytest
-```
-
-### 2. JUnit XML Report
-Pytest is configured to export results in JUnit XML format:
-
-```
-test-results/report.xml
-```
-
-This report can be integrated with Jenkins, GitLab, GitHub Actions, or other CI/CD tools.
-
----
-
-## ⚙️ Project Structure
-
-```
-.
-├── app/
-│   └── server.py          # FastAPI application
-├── tests/
-│   ├── test_api.py        # API tests
-│   └── conftest.py        # Pytest fixtures (Docker + health check)
-├── Dockerfile             # Docker build instructions
-├── docker-compose.yml     # Container orchestration
-├── pytest.ini             # Pytest config (JUnit output)
-├── requirements.txt       # Dependencies
-└── README.md              # Documentation
-```
-
----
-
-##  Development Notes
-- Default base URL for tests is `http://localhost:8000`
-- Override it for staging or remote testing:
-  ```bash
-  export API_BASE_URL=http://staging-server:8000
-  pytest
-  ```
-- You can manually test endpoints using curl:
-  ```bash
-  curl "http://localhost:8000/reverse?in=hello world"
-  curl "http://localhost:8000/restore"
-  curl "http://localhost:8000/health"
-  ```
-
----
-
-## Quickstart
+## Quickstart (one command)
 
 1. **Clone the repository**
    ```bash
@@ -116,19 +13,106 @@ This report can be integrated with Jenkins, GitLab, GitHub Actions, or other CI/
    cd <your-repo-name>
    ```
 
-2. **Build and run the app**
-   ```bash
-   docker-compose up --build -d
-   ```
-
-3. **Run tests**
+2. **Run the tests**
    ```bash
    pytest
    ```
 
-4. **Check results**
-   - API available at: [http://localhost:8000](http://localhost:8000)  
-   - Test report: `test-results/report.xml`  
+What happens:
+- `conftest.py` runs `docker-compose up --build -d` before tests.
+- It polls `GET /health` until `{"status":"ok"}`.
+- Tests run against `http://localhost:8000` (configurable).
+- When finished, it runs `docker-compose down` and writes a JUnit report to `test-results/report.xml`.
+
+> **Prereqs:** Docker + Docker Compose installed and running.
+
+---
+
+##  Configuration
+
+- **Base URL (optional):**
+  ```bash
+  export API_BASE_URL=http://staging-server:8000
+  pytest
+  ```
+
+- **Health check timeout (optional, seconds):**
+  ```bash
+  export TIMEOUT=30
+  pytest
+  ```
+
+> Defaults: `API_BASE_URL=http://localhost:8000`, `TIMEOUT=15`
+
+---
+
+##  Endpoints Covered
+
+- **`GET /reverse?in=your text`** – returns the words in reverse order.  
+  Example:
+  ```http
+  GET /reverse?in=The quick brown fox
+  → {"result": "fox brown quick The"}
+  ```
+
+- **`GET /restore`** – returns the last result produced by `/reverse`.  
+  Example:
+  ```http
+  GET /restore
+  → {"result": "fox brown quick The"}
+  ```
+
+- **`GET /health`** – simple health check.  
+  Example:
+  ```http
+  GET /health
+  → {"status": "ok"}
+  ```
+
+---
+
+##  Project Structure
+
+```
+.
+├── app/
+│   └── server.py          # FastAPI application
+├── tests/
+│   ├── test_api.py        # API tests
+│   └── conftest.py        # Pytest fixtures (Docker orchestration + health check)
+├── Dockerfile             # Docker build for the app
+├── docker-compose.yml     # Container orchestration
+├── pytest.ini             # Pytest config (JUnit XML output path)
+├── requirements.txt       # App/test dependencies
+└── README.md              # This file
+```
+
+---
+
+## Manual Checks (optional)
+
+If you **want** to run the app yourself (not required for tests):
+
+```bash
+docker-compose up --build -d
+# App at http://localhost:8000
+
+curl "http://localhost:8000/reverse?in=hello world"
+curl "http://localhost:8000/restore"
+curl "http://localhost:8000/health"
+
+docker-compose down
+```
+
+---
+
+##  CI/CD Notes
+
+- The JUnit file is written to:
+  ```
+  test-results/report.xml
+  ```
+- In CI (GitHub Actions / GitLab / Jenkins), collect that path as your test report artifact.
 
 ---
 
